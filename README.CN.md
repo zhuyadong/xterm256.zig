@@ -1,5 +1,5 @@
 [中文](README.CN.md) | [English](README.md)
-# xterm256.zig: 打印`xterm256`颜色和风格的文字
+# 打印`xterm256`颜色和风格的文字
 
 ## 使用举例
 ```zig

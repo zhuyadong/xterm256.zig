@@ -1,5 +1,5 @@
 [中文](README.CN.md) | [English](README.md)
-# xterm256.zig: Print Text with `xterm256` Colors and Styles
+# Print Text with `xterm256` Colors and Styles
 ## Install
 In the project root directory:
 ```shell
