@@ -288,7 +288,7 @@ const AnsiColor = union(enum) {
     pub fn of(comptime def: anytype) AnsiColor {
         return comptime blk: {
             switch (@typeInfo(@TypeOf(def))) {
-                .EnumLiteral => {
+                .enum_literal => {
                     if (@hasField(BasicColor, @tagName(def))) {
                         break :blk .{ .color = std.enums.nameCast(BasicColor, @tagName(def)) };
                     } else if (@hasField(XtermColor, @tagName(def))) {
@@ -465,7 +465,7 @@ pub fn getDef(def: anytype, comptime field: anytype) t: {
 
 fn DefFieldType(comptime T: type, comptime field: anytype) type {
     switch (@typeInfo(@TypeOf(field))) {
-        .EnumLiteral => return FieldType(T, field),
+        .enum_literal => return FieldType(T, field),
         else => return FieldType(T, nameCast(FieldEnum(T), field)),
     }
 }
@@ -473,21 +473,21 @@ fn DefFieldType(comptime T: type, comptime field: anytype) type {
 fn ReturnType(comptime T: type, comptime field: anytype) type {
     const FT = DefFieldType(T, field);
     switch (@typeInfo(FT)) {
-        .Optional => return FT,
+        .optional => return FT,
         else => return ?FT,
     }
 }
 
 inline fn hasField(comptime T: type, comptime field: anytype) bool {
     switch (@typeInfo(@TypeOf(field))) {
-        .EnumLiteral => return @hasField(T, @tagName(field)),
+        .enum_literal => return @hasField(T, @tagName(field)),
         else => return @hasField(T, field),
     }
 }
 
 fn fieldValue(lhs: anytype, comptime field: anytype) ReturnType(@TypeOf(lhs), field) {
     switch (@typeInfo(@TypeOf(field))) {
-        .EnumLiteral => return @field(lhs, @tagName(field)),
+        .enum_literal => return @field(lhs, @tagName(field)),
         else => return @field(lhs, field),
     }
 }
