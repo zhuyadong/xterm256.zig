@@ -1,6 +1,5 @@
 const std = @import("std");
 const builtin = @import("builtin");
-const FieldType = std.meta.FieldType;
 const FieldEnum = std.meta.FieldEnum;
 const StructField = std.builtin.Type.StructField;
 const nameCast = std.enums.nameCast;
@@ -465,13 +464,13 @@ pub fn getDef(def: anytype, comptime field: anytype) t: {
 
 fn DefFieldType(comptime T: type, comptime field: anytype) type {
     switch (@typeInfo(@TypeOf(field))) {
-        .enum_literal => return FieldType(T, field),
-        else => return FieldType(T, nameCast(FieldEnum(T), field)),
+        .enum_literal => return @FieldType(T, @tagName(field)),
+        else => return @FieldType(T, field),
     }
 }
 
 fn ReturnType(comptime T: type, comptime field: anytype) type {
-    const FT = DefFieldType(T, field);
+    const FT = DefFieldType(T, @tagName(field));
     switch (@typeInfo(FT)) {
         .optional => return FT,
         else => return ?FT,
